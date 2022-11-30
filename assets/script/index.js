@@ -6,6 +6,7 @@ const playerInput = document.querySelector('.player-input');
 const currentWord = document.querySelector('.current-word');
 const totalPoints = document.querySelector('.points');
 const timeLimit = document.querySelector('.timer');
+const leaderboard = document.querySelector('.leaderboard');
 
 const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building', 'population',
 'weather', 'bottle', 'history', 'dream', 'character', 'money', 'absolute',
@@ -21,20 +22,25 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
+let scores = [];
 let chosenWord = '';
 let points = 0;
-let time = 90;
+let time = 0;
+const maxTime = 10;
 
 /************************
  * Event listeners
 ************************/
 playerInput.addEventListener('click', () => {
+    resetPoints();
     startGame(...allWords);
     timer();
-    setInterval(() => {
+
+    let countTime = setInterval(function() {
         timer();
         if (time === 0) {
-            updateLeaderBoard()
+            updateLeaderBoard();
+            clearInterval(countTime);
         }
     }, 1000)
 });
@@ -85,7 +91,29 @@ function incrementPoints() {
     totalPoints.innerHTML = `Points: ${++points}`;
 }
 
+function resetPoints() {
+    points = -1;
+    incrementPoints();
+}
+
 function timer() {
-    timeLimit.innerHTML = time;
-    time--;
+    if (time === 0) time = maxTime + 1;
+    timeLimit.innerHTML = --time;
+}
+
+function updateLeaderBoard() {
+    const percentage = (points / allWords.length * 100).toPrecision(2);
+    const date = new Date().toString().substring(4, 15);
+    const score = new Score(date, points, percentage);
+    scores.push(score);
+    scores.sort(function compareFn(a, b) {
+        if (a.hits > b.hits) return 1;
+        if (a.hits < b.hits) return -1;
+        return 0;
+    });
+    
+    leaderboard.innerHTML = '';
+    for (let i = 0; i < scores.length; i++) {
+        leaderboard.innerHTML = `<p>${scores[i].hits} / ${scores[i].percentage}% / ${scores[i].date}</p>` + leaderboard.innerHTML;
+    }
 }
