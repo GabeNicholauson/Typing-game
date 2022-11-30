@@ -5,6 +5,7 @@ import Score from './Score.js';
 const playerInput = document.querySelector('.player-input');
 const currentWord = document.querySelector('.current-word');
 const totalPoints = document.querySelector('.points');
+const timeLimit = document.querySelector('.timer');
 
 const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building', 'population',
 'weather', 'bottle', 'history', 'dream', 'character', 'money', 'absolute',
@@ -22,12 +23,20 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'keyboard', 'window'];
 let chosenWord = '';
 let points = 0;
+let time = 90;
 
 /************************
  * Event listeners
 ************************/
 playerInput.addEventListener('click', () => {
     startGame(...allWords);
+    timer();
+    setInterval(() => {
+        timer();
+        if (time === 0) {
+            updateLeaderBoard()
+        }
+    }, 1000)
 });
 
 playerInput.addEventListener('keyup', () => {
@@ -74,4 +83,9 @@ function verifyWord() {
 
 function incrementPoints() {
     totalPoints.innerHTML = `Points: ${++points}`;
+}
+
+function timer() {
+    timeLimit.innerHTML = time;
+    time--;
 }
