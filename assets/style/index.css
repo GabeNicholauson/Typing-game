@@ -3,3 +3,12 @@
 body {
     background-color: #000;
 }
+
+.wrong {
+    color: #ff0000;
+    text-decoration: none;
+}
+
+p {
+    color: #fff;
+}
