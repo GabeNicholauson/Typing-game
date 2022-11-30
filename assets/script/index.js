@@ -4,6 +4,7 @@ import Score from './Score.js';
 
 const playerInput = document.querySelector('.player-input');
 const currentWord = document.querySelector('.current-word');
+const totalPoints = document.querySelector('.points');
 
 const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building', 'population',
 'weather', 'bottle', 'history', 'dream', 'character', 'money', 'absolute',
@@ -19,6 +20,8 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
+let chosenWord = '';
+let points = 0;
 
 /************************
  * Event listeners
@@ -27,15 +30,48 @@ playerInput.addEventListener('click', () => {
     startGame(...allWords);
 });
 
+playerInput.addEventListener('keyup', () => {
+    verifyWord();
+});
+
+playerInput.addEventListener('keydown', () => {
+    verifyWord();
+});
 
 /************************
  * Functions
 ************************/
 
 function startGame(...words) {
-    currentWord.value = words[randomNum(words.length)];
+    playerInput.value = '';
+    let randomWord = words[randomNum(words.length)];
+    currentWord.innerHTML = randomWord;
+    chosenWord = randomWord;
 }
 
 function randomNum(arrLength) {
     return Math.floor(Math.random() * arrLength);
+}
+
+function verifyWord() {
+    let word = chosenWord.split('');
+    let wrongLet = false;
+    for (let i = 0; i < playerInput.value.length; i++) {
+        if (playerInput.value.charAt(i) !== word[i] && playerInput.value.length <= word.length) {
+            wrongLet = true;
+            word[i] = `<a class="wrong">${word[i]}</a>`;
+            currentWord.innerHTML = word.join('');
+        }
+    }
+
+    if (!wrongLet && playerInput.value.length <= word.length) currentWord.innerHTML = word.join('');
+
+    if(playerInput.value === chosenWord) {
+        startGame(...allWords);
+        incrementPoints();
+    } 
+}
+
+function incrementPoints() {
+    totalPoints.innerHTML = `Points: ${++points}`;
 }
