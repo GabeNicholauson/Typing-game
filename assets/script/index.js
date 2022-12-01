@@ -2,6 +2,7 @@
 
 import Score from './Score.js';
 
+const body = document.querySelector('body');
 const startScreen = document.querySelector('.start-screen');
 const playButton = document.querySelector('.play-button');
 const restartButton = document.querySelector('.restart-button');
@@ -27,18 +28,23 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
-const maxTime = 10;
+const maxTime = 90;
 let scores = [];
 let chosenWord = '';
 let points = 0;
 let time = 0;
+let gameStarted = false;
+let audio = new Audio('../assets/audio/jazzyfrenchy.mp3');
 
 /************************
  * Event listeners
 ************************/
 playButton.addEventListener('click', () => {
-    startScreen.classList.add('hidden'); //hides start screen
-    game.classList.remove('hidden'); //brings up game screen
+    startScreen.style.animation = 'fade-out 1s ease-in-out';
+    setTimeout(() => {
+        startScreen.classList.add('hidden');
+        game.classList.remove('hidden'); //brings up game screen
+    }, 800);
 });
 
 restartButton.addEventListener('click', () => {
@@ -46,18 +52,24 @@ restartButton.addEventListener('click', () => {
 });
 
 playerInput.addEventListener('click', () => {
-    startGame(...allWords);
-    timer();
-
-    let countTime = setInterval(function() { //does this function until told to stop
+    if (!gameStarted) {
+        gameStarted = true;
+        playMusic();
+        startGame(...allWords);
         timer();
-        if (time === 0) {
-            updateLeaderBoard();
-            game.classList.add('hidden'); //hides game screen
-            end.classList.remove('hidden'); //brings up end / leaderboard screen
-            clearInterval(countTime); //stops counting
-        }
-    }, 1000); //every 1 second
+
+        let countTime = setInterval(function() { //does this function until told to stop
+            timer();
+            if (time === 0) {
+                stopMusic();
+                updateLeaderBoard();
+                game.classList.add('hidden'); //hides game screen
+                end.classList.remove('hidden'); //brings up end / leaderboard screen
+                clearInterval(countTime); //stops counting
+            }
+        }, 1000); //every 1 second
+    }
+    
 });
 
 playerInput.addEventListener('keyup', () => {
@@ -81,6 +93,7 @@ function startGame(...words) {
 function resetGame() {
     end.classList.add('hidden'); //hides end / leaderboard screen
     game.classList.remove('hidden'); //shows game screen
+    gameStarted = false;
     currentWord.innerHTML = '';
     playerInput.value = 'Click here to start';
     points = -1; //resets points
@@ -143,4 +156,14 @@ function updateLeaderBoard() {
                                     <td>${scores[i].date}</td>
                                 <tr>`;
     }
+}
+
+function playMusic() {
+    audio.volume = 0.1;
+    audio.play();
+}
+
+function stopMusic() {
+    audio.pause();
+    audio.currentTime = 0;
 }
