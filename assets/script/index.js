@@ -77,6 +77,7 @@ playerInput.addEventListener('keyup', () => {
 });
 
 playerInput.addEventListener('keydown', () => {
+    if(event.keyCode == 13) event.preventDefault();
     verifyWord();
 });
 
