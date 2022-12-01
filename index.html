@@ -12,21 +12,43 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+            integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer" 
+        />
         <script src="assets/script/index.js" type="module"></script>
         <title>Typing game</title>
     </head>
     <body>
         <main>
-            <div class="container">
-                <form class="game-info">
-                    <p class="current-word"></p>
-                    <input type="text" class="player-input" value="Click here to start the game">
-                </form>
-                <p class="points"></p>
-                <p class="timer"></p>
 
-                <div class="leaderboard">
+            <div class="start-screen">
+                <div class="container flex-container">
+                    <h2 class="game-title">Let's get typing!</h2>
+                    <button class="play-button">Play <i class="fa-solid fa-play"></i></button>
+                </div>
+            </div>
+
+            <div class="game hidden">
+                <div class="container flex-container">
+
+                    <p class="timer">Time left: </p>
+
+                    <form class="game-info">
+                        <p class="current-word flex-container"></p>
+                        <input type="text" class="player-input" value="Click here to start">
+                    </form>
                     
+                    <p class="points">Points: 0</p>
+    
+                </div>
+            </div>
+
+            <div class="end-screen hidden">
+                <div class="container flex-container">
+                    <h2>Leaderboard</h2>
+                    <table class="leaderboard"></table>
+                    <button class="restart-button">Restart</button>
                 </div>
             </div>
         </main>

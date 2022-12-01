@@ -4,11 +4,97 @@ body {
     background-color: #000;
 }
 
+h2 {
+    font-size: 30px;
+}
+
 .wrong {
     color: #ff0000;
     text-decoration: none;
 }
 
-p {
+.hidden {
+    display: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/***********************
+    Start screen
+***********************/
+.container {
+    height: 100vh;
+    width: 100%;
+}
+
+.play-button, .restart-button {
+    width: 200px;
+    height: 75px;
+    font-size: 30px;
+    border-radius: 6px;
+    background-color: #6495ed;
+    margin-top: 20px;
+}
+
+/***********************
+    Game screen
+***********************/
+
+.current-word, .player-input{
+    width: 200px;
+    height: 50px;
+    border-radius: 6px;
+    padding: 0 7px;
+    background-color: #fff;
+    color: #000;
+}
+
+.current-word {
+    margin-bottom: 10px;
+    flex-direction: row;
+    align-content: center;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.player-input {
+    text-align: center;
+}
+
+.timer, .points {
+    font-size: 25px;
+}
+
+/***********************
+    End screen
+***********************/
+.leaderboard tr {
     color: #fff;
+}
+
+.leaderboard tr th {
+    width: 150px;
+}
+
+.leaderboard tr td {
+    text-align: center;
+}
+
+/***********************
+    Same properties
+***********************/
+p, h2, button {
+    color: #fff;
+}
+
+.player-input, p, table {
+    font-weight: 600;
+    font-size: 20px;
 }
