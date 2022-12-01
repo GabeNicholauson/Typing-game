@@ -27,18 +27,18 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
+const maxTime = 10;
 let scores = [];
 let chosenWord = '';
 let points = 0;
 let time = 0;
-const maxTime = 10;
 
 /************************
  * Event listeners
 ************************/
 playButton.addEventListener('click', () => {
-    startScreen.classList.add('hidden');
-    game.classList.remove('hidden');
+    startScreen.classList.add('hidden'); //hides start screen
+    game.classList.remove('hidden'); //brings up game screen
 });
 
 restartButton.addEventListener('click', () => {
@@ -49,15 +49,15 @@ playerInput.addEventListener('click', () => {
     startGame(...allWords);
     timer();
 
-    let countTime = setInterval(function() {
+    let countTime = setInterval(function() { //does this function until told to stop
         timer();
         if (time === 0) {
             updateLeaderBoard();
-            game.classList.add('hidden');
-            end.classList.remove('hidden');
-            clearInterval(countTime);
+            game.classList.add('hidden'); //hides game screen
+            end.classList.remove('hidden'); //brings up end / leaderboard screen
+            clearInterval(countTime); //stops counting
         }
-    }, 1000)
+    }, 1000); //every 1 second
 });
 
 playerInput.addEventListener('keyup', () => {
@@ -71,71 +71,65 @@ playerInput.addEventListener('keydown', () => {
 /************************
  * Functions
 ************************/
-
 function startGame(...words) {
     playerInput.value = '';
-    let randomWord = words[randomNum(words.length)];
+    let randomWord = words[Math.floor(Math.random() * words.length)];
     currentWord.innerHTML = randomWord;
     chosenWord = randomWord;
 }
 
 function resetGame() {
-    end.classList.add('hidden');
-    game.classList.remove('hidden');
+    end.classList.add('hidden'); //hides end / leaderboard screen
+    game.classList.remove('hidden'); //shows game screen
     currentWord.innerHTML = '';
     playerInput.value = 'Click here to start';
-    resetPoints();
-}
-
-function randomNum(arrLength) {
-    return Math.floor(Math.random() * arrLength);
-}
-
-function verifyWord() {
-    let word = chosenWord.split('');
-    let wrongLet = false;
-    for (let i = 0; i < playerInput.value.length; i++) {
-        if (playerInput.value.charAt(i) !== word[i] && playerInput.value.length <= word.length) {
-            wrongLet = true;
-            word[i] = `<a class="wrong">${word[i]}</a>`;
-            currentWord.innerHTML = word.join('');
-        }
-    }
-
-    if (!wrongLet && playerInput.value.length <= word.length) currentWord.innerHTML = word.join('');
-
-    if(playerInput.value === chosenWord) {
-        startGame(...allWords);
-        incrementPoints();
-    } 
+    points = -1; //resets points
+    incrementPoints(); //brings the point counter to 0
 }
 
 function incrementPoints() {
-    totalPoints.innerHTML = `Points: ${++points}`;
+    totalPoints.innerHTML = `Points: ${++points}`; //counts points accumulated
 }
 
-function resetPoints() {
-    points = -1;
-    incrementPoints();
+function verifyWord() {
+    let word = chosenWord.split(''); //splits word into an array
+    let inputLength = playerInput.value.length; //makes code more readable
+    let wrongLet = false; //tracks if at least 1 letter is wrong
+
+    for (let i = 0; i < inputLength; i++) {
+        if (playerInput.value.charAt(i) !== word[i] && inputLength <= word.length) { //if the letters dont match
+            wrongLet = true;
+            word[i] = `<a class="wrong">${word[i]}</a>`; //highlights letter as wrong
+            currentWord.innerHTML = word.join(''); //joins the letters together to form the word
+        }
+    }
+
+    // if there are no wrong letter than the word wont have any highlited letters
+    if (!wrongLet && inputLength <= word.length) currentWord.innerHTML = word.join('');
+
+    if(playerInput.value === chosenWord) { //if the player has succesfully typed the word
+        startGame(...allWords); //resets the text boxes
+        incrementPoints(); //adds one point
+    } 
 }
 
-function timer() {
-    if (time === 0) time = maxTime + 1;
-    timeLimit.innerHTML = `Time left: ${--time}`;
+function timer() { //tracks time remaining
+    if (time === 0) time = maxTime + 1; //resets timer
+    timeLimit.innerHTML = `Time left: ${--time}`; //counts time left by 1
 }
 
 function updateLeaderBoard() {
-    const percentage = (points / allWords.length * 100).toPrecision(2);
-    const date = new Date().toString().substring(4, 15);
-    const score = new Score(date, points, percentage);
-    scores.push(score);
-    scores.sort(function compareFn(a, b) {
-        if (a.hits > b.hits) return -1;
-        if (a.hits < b.hits) return 1;
-        return 0;
+    const percentage = (points / allWords.length * 100).toPrecision(2); //gives the percentage of words typed
+    const date = new Date().toString().substring(4, 15); // current date. Month/Day/Year
+    const score = new Score(date, points, percentage); //creates the new score
+    scores.push(score); // adds score to score array
+    scores.sort(function compareFn(a, b) { //sorts the array in descending order
+        if (a.hits > b.hits) return -1; //brings score foward if its better
+        if (a.hits < b.hits) return 1; // moves score down if worse
+        return 0; //if score is the same then order isn't changed
     });
     
-    console.log(scores);
+    // creates the leaderboard table
     leaderboard.innerHTML = `<tr>
                                 <th>Hits</th>
                                 <th>Percentage</th>
