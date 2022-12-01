@@ -1,0 +1,1 @@
+Click [here](https://gabenicholauson.github.io/Typing-game/) to play the game.
