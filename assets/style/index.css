@@ -1,7 +1,7 @@
 @import './reset.css';
 
 body {
-    background-color: #000;
+    background: linear-gradient(#020317, #0c0217);
 }
 
 h2 {
@@ -27,6 +27,10 @@ h2 {
 /***********************
     Start screen
 ***********************/
+.start-screen {
+    animation: fade-in 1s ease-in-out;
+}
+
 .container {
     height: 100vh;
     width: 100%;
@@ -44,6 +48,10 @@ h2 {
 /***********************
     Game screen
 ***********************/
+
+.game {
+    animation: fade-in 1s ease-in-out;
+}
 
 .current-word, .player-input{
     width: 200px;
@@ -85,6 +93,19 @@ h2 {
 
 .leaderboard tr td {
     text-align: center;
+}
+
+/***********************
+    Animations
+***********************/
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 100%;}
+}
+
+@keyframes fade-out {
+    from {opacity: 100%;}
+    to {opacity: 0;}
 }
 
 /***********************
