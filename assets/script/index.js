@@ -2,6 +2,11 @@
 
 import Score from './Score.js';
 
+const startScreen = document.querySelector('.start-screen');
+const playButton = document.querySelector('.play-button');
+const restartButton = document.querySelector('.restart-button');
+const game = document.querySelector('.game');
+const end = document.querySelector('.end-screen');
 const playerInput = document.querySelector('.player-input');
 const currentWord = document.querySelector('.current-word');
 const totalPoints = document.querySelector('.points');
@@ -31,8 +36,16 @@ const maxTime = 10;
 /************************
  * Event listeners
 ************************/
+playButton.addEventListener('click', () => {
+    startScreen.classList.add('hidden');
+    game.classList.remove('hidden');
+});
+
+restartButton.addEventListener('click', () => {
+    resetGame();
+});
+
 playerInput.addEventListener('click', () => {
-    resetPoints();
     startGame(...allWords);
     timer();
 
@@ -40,6 +53,8 @@ playerInput.addEventListener('click', () => {
         timer();
         if (time === 0) {
             updateLeaderBoard();
+            game.classList.add('hidden');
+            end.classList.remove('hidden');
             clearInterval(countTime);
         }
     }, 1000)
@@ -62,6 +77,14 @@ function startGame(...words) {
     let randomWord = words[randomNum(words.length)];
     currentWord.innerHTML = randomWord;
     chosenWord = randomWord;
+}
+
+function resetGame() {
+    end.classList.add('hidden');
+    game.classList.remove('hidden');
+    currentWord.innerHTML = '';
+    playerInput.value = 'Click here to start';
+    resetPoints();
 }
 
 function randomNum(arrLength) {
@@ -98,7 +121,7 @@ function resetPoints() {
 
 function timer() {
     if (time === 0) time = maxTime + 1;
-    timeLimit.innerHTML = --time;
+    timeLimit.innerHTML = `Time left: ${--time}`;
 }
 
 function updateLeaderBoard() {
@@ -107,13 +130,23 @@ function updateLeaderBoard() {
     const score = new Score(date, points, percentage);
     scores.push(score);
     scores.sort(function compareFn(a, b) {
-        if (a.hits > b.hits) return 1;
-        if (a.hits < b.hits) return -1;
+        if (a.hits > b.hits) return -1;
+        if (a.hits < b.hits) return 1;
         return 0;
     });
     
-    leaderboard.innerHTML = '';
+    console.log(scores);
+    leaderboard.innerHTML = `<tr>
+                                <th>Hits</th>
+                                <th>Percentage</th>
+                                <th>Date</th>
+                            </tr>`;
     for (let i = 0; i < scores.length; i++) {
-        leaderboard.innerHTML = `<p>${scores[i].hits} / ${scores[i].percentage}% / ${scores[i].date}</p>` + leaderboard.innerHTML;
+        leaderboard.innerHTML = leaderboard.innerHTML + 
+                                `<tr>
+                                    <td>${scores[i].hits}</td>
+                                     <td>${scores[i].percentage}%</td>
+                                    <td>${scores[i].date}</td>
+                                <tr>`;
     }
 }
