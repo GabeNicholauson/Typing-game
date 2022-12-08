@@ -8,7 +8,7 @@ const game = document.querySelector('.game');
 const end = document.querySelector('.end-screen');
 const playerInput = document.querySelector('.player-input');
 const currentWord = document.querySelector('.current-word');
-const totalPoints = document.querySelector('.points');
+const totalhits = document.querySelector('.hits');
 const timeLimit = document.querySelector('.timer');
 const leaderboard = document.querySelector('.leaderboard');
 
@@ -28,7 +28,7 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'keyboard', 'window'];
 const maxTime = 90;
 let chosenWord = '';
-let points = 0;
+let hits = 0;
 let time = 0;
 let gameStarted = false;
 let audio = new Audio('./assets/audio/jazzyfrenchy.mp3');
@@ -94,14 +94,14 @@ function resetGame() {
     end.classList.add('hidden'); //hides end / leaderboard screen
     game.classList.remove('hidden'); //shows game screen
     currentWord.innerHTML = '';
-    points = -1; //resets points
-    incrementPoints(); //brings the point counter to 0
+    hits = -1; //resets hits
+    incrementhits(); //brings the point counter to 0
     gameStarted = false;
     playerInput.focus();
 }
 
-function incrementPoints() {
-    totalPoints.innerHTML = `Points: ${++points}`; //counts points accumulated
+function incrementhits() {
+    totalhits.innerHTML = `hits: ${++hits}`; //counts hits accumulated
 }
 
 function verifyWord() {
@@ -122,7 +122,7 @@ function verifyWord() {
 
     if(playerInput.value === chosenWord) { //if the player has succesfully typed the word
         startGame(...allWords); //resets the text boxes
-        incrementPoints(); //adds one point
+        incrementhits(); //adds one point
     } 
 }
 
@@ -133,11 +133,11 @@ function timer() { //tracks time remaining
 
 function updateLeaderBoard() {
     let scores = [];
-    const percentage = (points / allWords.length * 100).toPrecision(2); //gives the percentage of words typed
+    const percentage = (hits / allWords.length * 100).toPrecision(2); //gives the percentage of words typed
     const date = new Date().toString().substring(4, 15); // current date. Month/Day/Year
     const score = {
         date: date,
-        hits: points,
+        hits: hits,
         percentage: percentage
     }
 

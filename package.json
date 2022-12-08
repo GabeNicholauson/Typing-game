@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/GabeNicholauson/Typing-game#readme",
   "devDependencies": {
-    "lite-server": "^2.2.0"
+    "lite-server": "^2.6.1"
   }
 }
