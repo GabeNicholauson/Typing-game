@@ -28,13 +28,13 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
-const maxTime = 90;
-let scores = [];
+const maxTime = 2;
 let chosenWord = '';
 let points = 0;
 let time = 0;
 let gameStarted = false;
 let audio = new Audio('../assets/audio/jazzyfrenchy.mp3');
+audio.type = 'audio/mp3';
 
 /************************
  * Event listeners
@@ -136,30 +136,47 @@ function timer() { //tracks time remaining
 }
 
 function updateLeaderBoard() {
+    let scores = [];
     const percentage = (points / allWords.length * 100).toPrecision(2); //gives the percentage of words typed
     const date = new Date().toString().substring(4, 15); // current date. Month/Day/Year
-    const score = new Score(date, points, percentage); //creates the new score
+    const score = {
+        date: date,
+        hits: points,
+        percentage: percentage
+    }
+
     scores.push(score); // adds score to score array
+
+    if (localStorage.getItem('High-scores')) { //checks if 'High-scores' exists
+        let items = JSON.parse(localStorage.getItem('High-scores'));
+        for (const item of items) { //adds those scores to the array
+            scores.push(item);
+        }
+    }
+    
     scores.sort(function compareFn(a, b) { //sorts the array in descending order
         if (a.hits > b.hits) return -1; //brings score foward if its better
         if (a.hits < b.hits) return 1; // moves score down if worse
         return 0; //if score is the same then order isn't changed
     });
+
+    if (scores.length > 9) scores = scores.slice(0, 9); // Gets the 9 highest scores
     
     // creates the leaderboard table
     leaderboard.innerHTML = `<tr>
+                                <th>Place</th>
                                 <th>Hits</th>
-                                <th>Percentage</th>
                                 <th>Date</th>
                             </tr>`;
     for (let i = 0; i < scores.length; i++) {
         leaderboard.innerHTML = leaderboard.innerHTML + 
                                 `<tr>
+                                    <td>#${i + 1}</td>
                                     <td>${scores[i].hits}</td>
-                                     <td>${scores[i].percentage}%</td>
                                     <td>${scores[i].date}</td>
                                 <tr>`;
     }
+    localStorage.setItem('High-scores', JSON.stringify(scores)); //only saves the 9 highest scores
 }
 
 function playMusic() {
