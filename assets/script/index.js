@@ -28,12 +28,12 @@ const allWords = ['dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'buildin
 'fantastic', 'economy', 'interview', 'awesome', 'challenge', 'science', 'mystery',
 'famous', 'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
 'keyboard', 'window'];
-const maxTime = 2;
+const maxTime = 90;
 let chosenWord = '';
 let points = 0;
 let time = 0;
 let gameStarted = false;
-let audio = new Audio('../assets/audio/jazzyfrenchy.mp3');
+let audio = new Audio('./assets/audio/jazzyfrenchy.mp3');
 audio.type = 'audio/mp3';
 
 /************************
