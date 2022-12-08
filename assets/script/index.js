@@ -1,7 +1,5 @@
 'use strict';
 
-import Score from './Score.js';
-
 const body = document.querySelector('body');
 const startScreen = document.querySelector('.start-screen');
 const playButton = document.querySelector('.play-button');
@@ -40,18 +38,16 @@ audio.type = 'audio/mp3';
  * Event listeners
 ************************/
 playButton.addEventListener('click', () => {
-    startScreen.style.animation = 'fade-out 1s ease-in-out';
-    setTimeout(() => {
-        startScreen.classList.add('hidden');
-        game.classList.remove('hidden'); //brings up game screen
-    }, 800);
+    startScreen.classList.add('hidden');
+    game.classList.remove('hidden'); //brings up game screen
+    playerInput.focus();
 });
 
 restartButton.addEventListener('click', () => {
     resetGame();
 });
 
-playerInput.addEventListener('click', () => {
+playerInput.addEventListener('focus', () => {
     if (!gameStarted) {
         gameStarted = true;
         playMusic();
@@ -97,11 +93,11 @@ function startGame(...words) {
 function resetGame() {
     end.classList.add('hidden'); //hides end / leaderboard screen
     game.classList.remove('hidden'); //shows game screen
-    gameStarted = false;
     currentWord.innerHTML = '';
-    playerInput.value = 'Click here to start';
     points = -1; //resets points
     incrementPoints(); //brings the point counter to 0
+    gameStarted = false;
+    playerInput.focus();
 }
 
 function incrementPoints() {
