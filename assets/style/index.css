@@ -28,7 +28,7 @@ h2 {
     Start screen
 ***********************/
 .start-screen {
-    animation: fade-in 1s ease-in-out;
+    animation: fade-in 0.3s ease-in-out;
 }
 
 .container {
@@ -48,10 +48,6 @@ h2 {
 /***********************
     Game screen
 ***********************/
-
-.game {
-    animation: fade-in 1s ease-in-out;
-}
 
 .current-word, .player-input{
     width: 200px;
@@ -101,11 +97,6 @@ h2 {
 @keyframes fade-in {
     from {opacity: 0;}
     to {opacity: 100%;}
-}
-
-@keyframes fade-out {
-    from {opacity: 100%;}
-    to {opacity: 0;}
 }
 
 /***********************
