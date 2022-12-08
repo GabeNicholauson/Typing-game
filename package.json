@@ -1,7 +1,7 @@
 {
-  "name": "gabriel_nicholauson_oojs_assignment_05",
+  "name": "typing-game",
   "version": "1.0.0",
-  "description": "",
+  "description": "Click [here](https://gabenicholauson.github.io/Typing-game/) to play the game.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/GabeNicholauson/Typing-game#readme",
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "lite-server": "^2.2.0"
   }
 }
